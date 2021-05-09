@@ -97,9 +97,9 @@ class Grid:
         # 4 = 10000
         # 3 = 100
         # 2 = 10
+        # 1 = 1
         score = 0
 
-        """
         #Score per row 
         for l in self.board:
             combo = 0
@@ -109,12 +109,12 @@ class Grid:
                 else:
                     if combo != 0:
                         if combo == 4:
-                            combo += 1
+                            return float('inf')
                         score += 10 ** (combo - 1)
                         combo = 0
             if combo != 0:
                 if combo == 4:
-                    combo += 1
+                    return float('inf')
                 score += 10 ** (combo - 1)
 
         #Score per column
@@ -126,13 +126,13 @@ class Grid:
                 else:
                     if combo != 0:
                         if combo == 4:
-                            combo += 1
-                        score += 10 ** (combo - 1) - 1
+                            return float('inf')
+                        score += 10 ** (combo - 1)
                         combo = 0
             if combo != 0:
                 if combo == 4:
-                    combo += 1
-                score += 10 ** (combo - 1) - 1
+                    return float('inf')
+                score += 10 ** (combo - 1)
                 combo = 0
 
         #Score per diagonal bottom to top
@@ -145,16 +145,32 @@ class Grid:
                 else:
                     if combo != 0:
                         if combo == 4:
-                            combo += 1
-                        score += 10 ** (combo - 1) - 1
+                            return float('inf')
+                        score += 10 ** (combo - 1)
                         combo = 0
             if combo != 0:
                 if combo == 4:
-                    combo += 1
-                score += 10 ** (combo - 1) - 1
+                    return float('inf')
+                score += 10 ** (combo - 1)
                 combo = 0
 
-        """
+        for diag in range(4, self.size_x + self.size_y - 3):
+            beginning = max(0, diag - self.size_y)
+            combo = 0
+            for j in range(min(diag, self.size_x - beginning, self.size_y)):
+                if self.board[self.size_y - min(self.size_y, diag) +j][beginning + j] == player:
+                    combo += 1
+                else:
+                    if combo != 0:
+                        if combo == 4:
+                            return float('inf')
+                        score += 10 ** (combo - 1)
+                        combo = 0
+            if combo != 0:
+                if combo == 4:
+                    return float('inf')
+                score += 10 ** (combo - 1)
+                combo = 0                    
         print(f"le score est {score}")
                 
 
