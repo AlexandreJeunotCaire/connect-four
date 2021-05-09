@@ -94,6 +94,11 @@ class Grid:
             print()
 
     def score(self, player):
+        score = self.score_player(player) - self.score_player(int(not player))
+        print(f"le score est {score}")
+        return score
+
+    def score_player(self, player):
         # 4 = 10000
         # 3 = 100
         # 2 = 10
@@ -106,7 +111,7 @@ class Grid:
             for c in l:
                 if c == player:
                     combo += 1
-                else:
+                elif c != -1:
                     if combo != 0:
                         if combo == 4:
                             return float('inf')
@@ -123,7 +128,7 @@ class Grid:
             for line in self.board:
                 if line[col] == player:
                     combo += 1
-                else:
+                elif c != -1:
                     if combo != 0:
                         if combo == 4:
                             return float('inf')
@@ -142,7 +147,7 @@ class Grid:
             for j in range(min(diag, self.size_x - beginning, self.size_y)):
                 if self.board[min(self.size_y, diag) - j - 1][beginning + j] == player:
                     combo += 1
-                else:
+                elif c != -1:
                     if combo != 0:
                         if combo == 4:
                             return float('inf')
@@ -160,7 +165,7 @@ class Grid:
             for j in range(min(diag, self.size_x - beginning, self.size_y)):
                 if self.board[self.size_y - min(self.size_y, diag) +j][beginning + j] == player:
                     combo += 1
-                else:
+                elif c != -1:
                     if combo != 0:
                         if combo == 4:
                             return float('inf')
@@ -170,8 +175,8 @@ class Grid:
                 if combo == 4:
                     return float('inf')
                 score += 10 ** (combo - 1)
-                combo = 0                    
-        print(f"le score est {score}")
+                combo = 0
+        return score               
                 
 
     def game_over(self):
